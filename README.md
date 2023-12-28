@@ -67,14 +67,14 @@ void afficherHistoriqueParMois(Historique *historique, int mois, int annee) {
         return;
     }
 
-    printf("Historique des locations pour le mois %d de l'année %d:\n", mois, annee);
+    printf("Historique des locations pour le mois %d de l'annee %d:\n", mois, annee);
     for (int i = 0; i < historique->nombreLocations; i++) {
         if ((historique->locations[i].debut.aa == annee && historique->locations[i].debut.mm == mois) ||
             (historique->locations[i].fin.aa == annee && historique->locations[i].fin.mm == mois)) {
             locationsTrouvees = true;
 
             printf("Client: %s\n", historique->locations[i].client);
-            printf("Voiture louée: %s %s\n", historique->locations[i].voiture->marque, historique->locations[i].voiture->modele);
+            printf("Voiture louee: %s %s\n", historique->locations[i].voiture->marque, historique->locations[i].voiture->modele);
             printf("Debut: %d-%d-%d\n", historique->locations[i].debut.aa, historique->locations[i].debut.mm, historique->locations[i].debut.jj);
             printf("Fin: %d-%d-%d\n", historique->locations[i].fin.aa, historique->locations[i].fin.mm, historique->locations[i].fin.jj);
             printf("\n");
@@ -466,14 +466,14 @@ int main() {
             case 10:
                 afficherReservations(&historique);
                 int choixConfirmation;
-                printf("Entrez le numéro de réservation à confirmer : ");
+                printf("Entrez le numero de reservation a confirmer : ");
                 scanf("%d", &choixConfirmation);
                 confirmerReservation(&historique, choixConfirmation);
                 break;
             case 11:
                 afficherReservations(&historique);
                  int choixAnnulation;
-                printf("Entrez le numéro de réservation à annuler : ");
+                printf("Entrez le numero de reservation a annuler : ");
                 scanf("%d", &choixAnnulation);
                 annulerReservation(&historique, choixAnnulation);
                 break;
