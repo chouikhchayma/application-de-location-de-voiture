@@ -258,6 +258,13 @@ void reserverVoiture(Voiture *voiture, Historique *historique, const char *clien
         printf("Cette voiture n'est pas disponible pour la réservation.\n");
     }
 }
+void afficherVoituresLouees(Historique *historique) {
+    printf("Voitures louees :\n");
+    for (int i = 0; i < historique->nombreLocations; i++) {
+        printf("%d. %s %s\n", i + 1, historique->locations[i].voiture->marque, historique->locations[i].voiture->modele);
+    }
+}
+
 int main() {
     Voiture voitures[maxvoitures];
     voitures[0] = (Voiture){"Toyota","Corolla", 2020,"Disponible",90};
@@ -343,13 +350,19 @@ int main() {
                 break;
 
             case 2:
-                printf("Entrez le numero de la voiture a retourner : ");
-                scanf("%d", &choixVoiture);
-                printf("Entrez la date de retour (jj mm aa) : ");
-                scanf("%d %d %d", &dateRetour.jj, &dateRetour.mm, &dateRetour.aa);
-
-                retournerVoiture(&voitures[choixVoiture - 1], &historique, dateRetour);
+                afficherVoituresLouees(&historique);
+                if (historique.nombreLocations > 0) {
+                    int choixVoitureRetour;
+                    printf("Entrez le numero de la voiture a retourner : ");
+                    scanf("%d", &choixVoitureRetour);
+                    printf("Entrez la date de retour (jj mm aa) : ");
+                    scanf("%d %d %d", &dateRetour.jj, &dateRetour.mm, &dateRetour.aa);
+                    retournerVoiture(&historique.locations[choixVoitureRetour - 1].voiture, &historique, dateRetour);
+                } else {
+                    printf("Aucune voiture louee.\n");
+                }
                 break;
+
 
             case 3:
                 afficherHistorique(&historique);
