@@ -113,7 +113,7 @@ void afficherHistoriqueParJour(Historique *historique, int jour, int mois, int a
             locationsTrouvees = true;
 
             printf("Client: %s\n", historique->locations[i].client);
-            printf("Voiture louée: %s %s\n", historique->locations[i].voiture->marque, historique->locations[i].voiture->modele);
+            printf("Voiture louee: %s %s\n", historique->locations[i].voiture->marque, historique->locations[i].voiture->modele);
             printf("Debut: %d-%d-%d\n", historique->locations[i].debut.aa, historique->locations[i].debut.mm, historique->locations[i].debut.jj);
             printf("Fin: %d-%d-%d\n", historique->locations[i].fin.aa, historique->locations[i].fin.mm, historique->locations[i].fin.jj);
             printf("\n");
