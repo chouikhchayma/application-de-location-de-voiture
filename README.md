@@ -57,6 +57,14 @@ void afficherHistorique(Historique *historique) {
 }
 
 
+void retournerVoiture(Voiture *voiture) {
+    if (strcmp(voiture->etat, "En location") == 0) {
+        strcpy(voiture->etat, "Disponible");
+        printf("Retour de la voiture effectue avec succes.\n");
+    } else {
+        printf("Erreur : Cette voiture n'est pas en location.\n");
+    }
+}
 
 
 void afficherHistoriqueParMois(Historique *historique, int mois, int annee) {
@@ -135,18 +143,9 @@ void louerVoiture(Voiture *voiture, Historique *historique, const char *client, 
 
 }
 
-void retournerVoiture(Voiture *voiture, Historique *historique, Date dateRetour) {
-    strcpy(voiture->etat, "Disponible");
-    for (int i = 0; i < historique->nombreLocations; i++) {
-        if (historique->locations[i].voiture == voiture) {
-            historique->locations[i].fin = dateRetour;
-            printf("Retour de la voiture effectue avec succes.\n");
-            return;
-        }
-    }
 
-    printf("Erreur : Impossible de trouver la location correspondante dans l'historique.\n");
-}
+
+
 void afficherVoituresDisponibles(Voiture *voitures, int nombreVoitures) {
     printf("Voitures disponibles :\n");
     for (int i = 0; i < nombreVoitures; i++) {
@@ -314,32 +313,28 @@ int main() {
             case 1:
                 printf("Entrez le nom du client : \n");
                 scanf(" %s", client);
-
-
-
-             do {
-            printf("Entrez la date de debut (jj mm aa) :\n ");
-            if (scanf("%d %d %d", &debut.jj, &debut.mm, &debut.aa) != 3 || !estDateValide(&debut)) {
-                printf("Format de date invalide. Veuillez entrer une date valide sous la forme (jj mm aa).\n");
-                while (getchar() != '\n');}
-            } while (!estDateValide(&debut));
-
-             do {
-            printf("Entrez la date de fin (jj mm aa) : \n");
-            if (scanf("%d %d %d", &fin.jj, &fin.mm, &fin.aa) != 3 || !estDateValide(&fin)) {
-                printf("Format de date invalide. Veuillez entrer une date valide sous la forme (jj mm aa).\n");
-                while (getchar() != '\n');
-            }
-        } while (!estDateValide(&fin));
-
-
-
                 printf("Voitures disponibles :\n");
                 for (int i = 0; i < nombreVoitures; i++) {
                     if (strcmp(voitures[i].etat, "Disponible") == 0) {
                         printf("%d. %s %s\n", i + 1, voitures[i].marque, voitures[i].modele);
                     }
                 }
+
+                do {
+                printf("Entrez la date de debut (jj mm aa) :\n ");
+                if (scanf("%d %d %d", &debut.jj, &debut.mm, &debut.aa) != 3 || !estDateValide(&debut)) {
+                    printf("Format de date invalide. Veuillez entrer une date valide sous la forme (jj mm aa).\n");
+                    while (getchar() != '\n');}
+                } while (!estDateValide(&debut));
+
+                do {
+                printf("Entrez la date de fin (jj mm aa) : \n");
+                if (scanf("%d %d %d", &fin.jj, &fin.mm, &fin.aa) != 3 || !estDateValide(&fin)) {
+                    printf("Format de date invalide. Veuillez entrer une date valide sous la forme (jj mm aa).\n");
+                    while (getchar() != '\n');
+                }
+                } while (!estDateValide(&fin));
+
                 int choixVoiture;
                 do {
                     printf("Choisissez une voiture : ");
@@ -353,17 +348,20 @@ int main() {
                 afficherVoituresLouees(&historique);
                 if (historique.nombreLocations > 0) {
                     int choixVoitureRetour;
-                    printf("Entrez le numero de la voiture a retourner : ");
-                    scanf("%d", &choixVoitureRetour);
+                    do {
+                        printf("Entrez le numero de la voiture a retourner (1-%d) : ", historique.nombreLocations);
+                        scanf("%d", &choixVoitureRetour);
+                    } while (choixVoitureRetour < 1 || choixVoitureRetour > historique.nombreLocations);
+
                     printf("Entrez la date de retour (jj mm aa) : ");
                     scanf("%d %d %d", &dateRetour.jj, &dateRetour.mm, &dateRetour.aa);
-                    retournerVoiture(&historique.locations[choixVoitureRetour - 1].voiture, &historique, dateRetour);
+
+                    retournerVoiture(historique.locations[choixVoitureRetour - 1].voiture);
+                    historique.locations[choixVoitureRetour - 1].fin = dateRetour;
                 } else {
                     printf("Aucune voiture louee.\n");
                 }
                 break;
-
-
             case 3:
                 afficherHistorique(&historique);
                 break;
@@ -477,8 +475,6 @@ int main() {
                     printf("Aucune reservation dans l'historique.\n");
                 }
                 break;
-
-
             case 12:
                 afficherReservations(&historique);
                 break;
