@@ -442,19 +442,30 @@ int main() {
                 reserverVoiture(&voitures[choixVoitureRes - 1], &historique, client, debut, fin);
                 break;
             case 10:
-                afficherReservations(&historique);
-                int choixConfirmation;
-                printf("Entrez le numero de reservation a confirmer : ");
-                scanf("%d", &choixConfirmation);
-                confirmerReservation(&historique, choixConfirmation);
+                if (historique.nombreReservations > 0) {
+                    afficherReservations(&historique);
+                    int choixConfirmation;
+                    printf("Entrez le numero de reservation a confirmer : ");
+                    scanf("%d", &choixConfirmation);
+                    confirmerReservation(&historique, choixConfirmation);
+                } else {
+                    printf("Aucune reservation dans l'historique.\n");
+                }
                 break;
-            case 11:
-                afficherReservations(&historique);
-                 int choixAnnulation;
-                printf("Entrez le numero de reservation a annuler : ");
-                scanf("%d", &choixAnnulation);
-                annulerReservation(&historique, choixAnnulation);
+
+           case 11:
+                if (historique.nombreReservations > 0) {
+                    afficherReservations(&historique);
+                    int choixAnnulation;
+                    printf("Entrez le numero de reservation a annuler : ");
+                    scanf("%d", &choixAnnulation);
+                    annulerReservation(&historique, choixAnnulation);
+                } else {
+                    printf("Aucune reservation dans l'historique.\n");
+                }
                 break;
+
+
             case 12:
                 afficherReservations(&historique);
                 break;
