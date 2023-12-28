@@ -258,28 +258,6 @@ void reserverVoiture(Voiture *voiture, Historique *historique, const char *clien
         printf("Cette voiture n'est pas disponible pour la réservation.\n");
     }
 }
-
-int comparerDates(const Date *date1, const Date *date2) {
-    if (date1->aa < date2->aa) {
-        return -1;
-    } else if (date1->aa > date2->aa) {
-        return 1;
-    }
-
-    if (date1->mm < date2->mm) {
-        return -1;
-    } else if (date1->mm > date2->mm) {
-        return 1;
-    }
-
-    if (date1->jj < date2->jj) {
-        return -1;
-    } else if (date1->jj > date2->jj) {
-        return 1;
-    }
-
-    return 0;
-}
 int main() {
     Voiture voitures[maxvoitures];
     voitures[0] = (Voiture){"Toyota","Corolla", 2020,"Disponible",90};
